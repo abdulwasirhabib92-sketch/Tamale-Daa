@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tamale Daa | Multi-Vendor Marketplace</title>
+<title>Tamale Daa | Multi-Vendor Smart Marketplace</title>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -145,7 +145,7 @@ header .logo span {
   top: 65px;
   z-index: 900;
   background: var(--light-bg);
-  padding: 4px 0 14px 0;
+  padding: 4px 0 10px 0;
 }
 
 .search-box {
@@ -181,7 +181,7 @@ header .logo span {
   display: flex;
   gap: 8px;
   overflow-x: auto;
-  padding: 4px 0 16px 0;
+  padding: 4px 0 10px 0;
   scrollbar-width: none;
 }
 
@@ -206,6 +206,45 @@ header .logo span {
   background: var(--primary);
   color: white;
   border-color: var(--primary);
+}
+
+/* Nested Subcategories Container */
+.subcategories-wrapper {
+  background: #f1f5f9;
+  padding: 10px;
+  border-radius: 12px;
+  margin-bottom: 16px;
+  display: none;
+}
+
+.subcategories-container {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.subcategories-container::-webkit-scrollbar {
+  display: none;
+}
+
+.sub-chip {
+  white-space: nowrap;
+  padding: 6px 12px;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--dark);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.sub-chip.active {
+  background: #0ea5e9;
+  color: white;
+  border-color: #0ea5e9;
 }
 
 /* UI Cards Engine */
@@ -268,6 +307,18 @@ input:focus, select:focus, textarea:focus {
   box-shadow: 0 0 0 3px rgba(10, 125, 59, 0.08);
 }
 
+/* Dependent Dropdown Container Hint Box */
+.interactive-hint {
+  font-size: 12px;
+  color: #0284c7;
+  background: #f0f9ff;
+  padding: 10px;
+  border-radius: 8px;
+  border-left: 4px solid #0284c7;
+  margin-top: -10px;
+  margin-bottom: 16px;
+}
+
 /* Buttons System */
 .btn {
   width: 100%;
@@ -289,12 +340,6 @@ input:focus, select:focus, textarea:focus {
 .btn:hover {
   opacity: 0.95;
   transform: translateY(-1px);
-}
-
-.btn-secondary {
-  background: #e2e8f0;
-  color: var(--dark);
-  margin-top: 10px;
 }
 
 /* Advanced Product Feed Display Grid */
@@ -359,12 +404,27 @@ input:focus, select:focus, textarea:focus {
   flex-grow: 1;
 }
 
+.product-badges-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-bottom: 6px;
+}
+
 .product-shop {
   font-size: 11px;
   font-weight: 700;
   color: var(--primary);
   text-transform: uppercase;
-  margin-bottom: 4px;
+}
+
+.badge-subcat {
+  font-size: 10px;
+  font-weight: 600;
+  background: #e0f2fe;
+  color: #0369a1;
+  padding: 2px 6px;
+  border-radius: 4px;
 }
 
 .product-title {
@@ -415,18 +475,6 @@ input:focus, select:focus, textarea:focus {
 .btn-p-wa { background: var(--whatsapp); color: white; }
 .btn-p-del { background: var(--danger); color: white; grid-column: span 2; margin-top: 4px;}
 
-/* Shop Selection Dropdown Style for Post Item */
-.shop-selector-box {
-  background: var(--accent-light);
-  border: 1px dashed var(--accent);
-  padding: 12px;
-  border-radius: 10px;
-  margin-bottom: 16px;
-  text-align: center;
-  font-size: 13px;
-  font-weight: 600;
-}
-
 #adminPanel {
   background: #fef2f2;
   border: 1px dashed var(--danger);
@@ -447,7 +495,7 @@ input:focus, select:focus, textarea:focus {
 <div class="container">
 
   <div class="promo-banner">
-    <span>🔥 Super Deals Week: Open a digital shop & upload products instantly!</span>
+    <span>🔥 Subcategory Smart Routing Active: Find products faster!</span>
     <i class="fa-solid fa-bolt"></i>
   </div>
 
@@ -460,7 +508,7 @@ input:focus, select:focus, textarea:focus {
     <div class="search-wrapper">
       <div class="search-box">
         <i class="fa-solid fa-magnifying-glass"></i>
-        <input id="search" placeholder="Search products, brands, shops, or locations..." onkeyup="loadFeed()">
+        <input id="search" placeholder="Search products, subcategories, brands, or landmarks..." onkeyup="loadFeed()">
       </div>
     </div>
 
@@ -474,6 +522,11 @@ input:focus, select:focus, textarea:focus {
       <div class="chip" onclick="filterCategory('Transport')">Transport</div>
     </div>
 
+    <div class="subcategories-wrapper" id="buyer-subcat-wrapper">
+      <div class="subcategories-container" id="buyer-subcat-chips">
+        </div>
+    </div>
+
     <div class="section-title"><i class="fa-solid fa-fire" style="color: #ff4c3b;"></i> Fresh From Stores in Tamale</div>
     <div class="feed-grid" id="product-feed-display"></div>
   </div>
@@ -481,27 +534,26 @@ input:focus, select:focus, textarea:focus {
   <div id="view-merchant-container" style="display: none;">
     
     <div id="adminPanel" style="display:none;" class="card">
-      <p style="font-weight:700;"><i class="fa-solid fa-shield-halved"></i> Root Administration Security Authorization Granted.</p>
+      <p style="font-weight:700;"><i class="fa-solid fa-shield-halved"></i> Root Administration Security Authorization Active.</p>
     </div>
 
     <div class="card">
       <div class="section-title"><i class="fa-solid fa-plus-circle" style="color:var(--primary)"></i> 1. Setup Your Digital Shop</div>
-      <p style="font-size:12px; color:var(--text-muted); margin-bottom:14px;">Establish your dynamic vendor presence to unlock stock deployment slots.</p>
       
       <div class="form-group">
-        <label>Proprietor / Representative Name</label>
+        <label>Proprietor Name</label>
         <input id="shop-owner" placeholder="Your full name">
       </div>
       <div class="form-group">
-        <label>Contact Phone (WhatsApp Active Preferred)</label>
+        <label>Contact Phone (WhatsApp Active)</label>
         <input id="shop-phone" type="tel" placeholder="e.g. 0244123456">
       </div>
       <div class="form-group">
         <label>Store Brand/Business Name</label>
-        <input id="shop-name" placeholder="e.g. Aliu & Sons Agriculture Complex">
+        <input id="shop-name" placeholder="e.g. Dagomba Fashion Hub">
       </div>
       <div class="form-group">
-        <label>Market Sector Domain Classification</label>
+        <label>Primary Market Domain Sector</label>
         <select id="shop-category">
           <option>Commerce</option>
           <option>Services</option>
@@ -517,7 +569,7 @@ input:focus, select:focus, textarea:focus {
       </div>
       <div class="form-group">
         <label>Physical Landmark Description</label>
-        <input id="shop-location" placeholder="e.g. Near Tamale Jubilee Park">
+        <input id="shop-location" placeholder="e.g. Near Tamale Central Mosque">
       </div>
       
       <button class="btn" onclick="createNewShop()"><i class="fa-solid fa-store"></i> Deploy Storefront</button>
@@ -527,35 +579,45 @@ input:focus, select:focus, textarea:focus {
       <div class="section-title"><i class="fa-solid fa-cloud-arrow-up" style="color:#0369a1"></i> 2. Upload Product to Your Shop</div>
       
       <div class="form-group">
-        <label>Select Target Active Owned Storefront</label>
-        <select id="product-target-shop" onchange="checkShopStatus()">
+        <label>Select Target Active Storefront</label>
+        <select id="product-target-shop" onchange="handleVendorShopSelectionChange()">
           </select>
+      </div>
+
+      <div class="interactive-hint" id="vendor-shop-hint">
+        Select a shop profile above to compute matching catalog fields.
       </div>
 
       <div id="shop-dependent-fields">
         <div class="form-group">
-          <label>Product Title / Item Descriptor</label>
-          <input id="prod-title" placeholder="e.g. Smock (Fugu) Royal Grade">
+          <label>Assign Item Subcategory Placement</label>
+          <select id="prod-subcategory">
+            </select>
+        </div>
+
+        <div class="form-group">
+          <label>Product Title / Item Name</label>
+          <input id="prod-title" placeholder="e.g. Royal Handwoven Northern Smock">
         </div>
         <div class="form-group">
           <label>Price Tag (GHS ₵)</label>
-          <input id="prod-price" type="number" placeholder="e.g. 450">
+          <input id="prod-price" type="number" placeholder="e.g. 350">
         </div>
         <div class="form-group">
-          <label>Visual Product Badge Icon Identifier</label>
+          <label>Visual Feed Icon Badge</label>
           <select id="prod-icon">
-            <option value="fa-shirt">👕 Apparel & Fashion Cloth</option>
-            <option value="fa-seedling">🌱 Farm Fresh & Agro Raw</option>
-            <option value="fa-bowl-food">🍲 Cooked Meals & Catering</option>
-            <option value="fa-mobile-screen">📱 Electronic Hardware Device</option>
-            <option value="fa-screwdriver-wrench">🛠️ Hardware / Technical Services</option>
-            <option value="fa-car">🚗 Logistics / Transit Services</option>
-            <option value="fa-box">📦 Generic Consumer Commodity</option>
+            <option value="fa-shirt"> Apparels / Footwear / Fabrics</option>
+            <option value="fa-seedling"> Crops / Seeds / Agro Chemicals</option>
+            <option value="fa-bowl-food"> Provisions / Catering / Food</option>
+            <option value="fa-mobile-screen"> Digital Gear / Mobiles / Devices</option>
+            <option value="fa-screwdriver-wrench"> Crafting / Handiwork Repairs</option>
+            <option value="fa-car"> Vehicle Rental / Dispatch Delivery</option>
+            <option value="fa-box"> General Retail Goods</option>
           </select>
         </div>
         <div class="form-group">
           <label>Item Description / Specifications</label>
-          <textarea id="prod-desc" placeholder="Detail specifications, sizing options, deliveries metrics, colors available..."></textarea>
+          <textarea id="prod-desc" placeholder="Provide size options, textures, delivery availability details..."></textarea>
         </div>
         
         <button class="btn" style="background:#0369a1;" onclick="uploadProductToShop()"><i class="fa-solid fa-paper-plane"></i> Publish Product Live</button>
@@ -567,14 +629,25 @@ input:focus, select:focus, textarea:focus {
 </div>
 
 <script>
-// SINGLE SOURCE OF TRUTH LOCALSTORAGE DATABASE SCHEMATICS 
-let DB = JSON.parse(localStorage.getItem("tamale_daa_v2") || '{"shops":[], "products":[]}');
+// SUBCATEGORY RELATIONSHIP DATA ARCHITECTURE MATRIX
+const SUBCATEGORY_MAP = {
+  "Commerce": ["Clothing & Smocks", "Electronics & Phones", "Shoes & Bags", "Cosmetics", "General Retail"],
+  "Services": ["Tailoring & Design", "Barbering & Hairdressing", "Electricians & Plumbing", "Graphic Design", "IT Support"],
+  "Agriculture": ["Grains & Cereals", "Livestock & Poultry", "Shea Butter Products", "Tractors & Tools", "Fertilizers"],
+  "Food": ["Local Restaurants", "Bakeries", "Fast Food Chains", "Butcher Shops", "Catering & Events"],
+  "Hotels": ["Guest Houses", "Luxury Resorts", "Conference Halls", "Short-stay Lodges"],
+  "Transport": ["Motorcycle Rentals (Yellow Yellow)", "Cargo Trucking", "Inter-city Buses", "Delivery Couriers"]
+};
 
-// RUNTIME CONTEXT APP MATRIX
+// LOCALSTORAGE DATA SEED ARCHITECTURE 
+let DB = JSON.parse(localStorage.getItem("tamale_daa_v3") || '{"shops":[], "products":[]}');
+
+// APP CONTEXT STATE STRUC
 let currentActiveCategory = "All";
+let currentActiveSubcategory = "All";
 let isAdminActive = false;
 
-// INTERACTIVE VIEWS CONTROLLER SWITCH LAYER
+// VIEW CONTROLLER ROUTING SWITCHER
 function switchTab(targetTab) {
   const feedBtn = document.getElementById('tab-feed');
   const merchantBtn = document.getElementById('tab-merchant');
@@ -596,7 +669,7 @@ function switchTab(targetTab) {
   }
 }
 
-// MULTI-VENDOR CORE COMPONENT A: ESTABLISHING A SHOPFRONT
+// MERCHANT CONSOLE MECHANICS: CREATE BRAND SHOP PROFILE
 function createNewShop() {
   const owner = document.getElementById("shop-owner").value.trim();
   const phone = document.getElementById("shop-phone").value.trim();
@@ -606,14 +679,12 @@ function createNewShop() {
   const location = document.getElementById("shop-location").value.trim();
 
   if(!owner || !phone || !name || !location) {
-    alert("⚠️ Execution Halted: Please ensure all Storefront fields are configured.");
+    alert("⚠️ Field Verification Failed: Please complete all base parameters.");
     return;
   }
 
-  // Generate Unique Structural Entity for Shop
-  const uniqueShopId = "shop_" + Date.now();
   const shopObj = {
-    id: uniqueShopId,
+    id: "shop_" + Date.now(),
     owner,
     phone,
     name,
@@ -626,9 +697,9 @@ function createNewShop() {
   DB.shops.push(shopObj);
   saveDatabaseState();
   
-  alert(`🎉 Storefront "${name}" is registered and operational. You can now list items!`);
+  alert(`🎉 Storefront "${name}" is now created! Let's list some items under ${category}.`);
   
-  // Clean Input Forms Fields
+  // Clear forms
   document.getElementById("shop-owner").value = "";
   document.getElementById("shop-phone").value = "";
   document.getElementById("shop-name").value = "";
@@ -637,33 +708,58 @@ function createNewShop() {
   populateShopDropdownSelectors();
 }
 
-// MULTI-VENDOR CORE COMPONENT B: STOCK ITEM UPLOAD LINKED TO TARGET STOREFRONT
+// RENDERING NESTED DROPDOWNS DYNAMICALLY BASED ON STORE CATEGORY FOR THE VENDOR
+function handleVendorShopSelectionChange() {
+  const shopId = document.getElementById("product-target-shop").value;
+  const subcatSelect = document.getElementById("prod-subcategory");
+  const hintBox = document.getElementById("vendor-shop-hint");
+
+  if(!shopId) {
+    subcatSelect.innerHTML = `<option value="">-- Setup Shop Profile First --</option>`;
+    hintBox.innerHTML = "Setup or select an operational store workspace mapping.";
+    return;
+  }
+
+  const activeShop = DB.shops.find(s => s.id === shopId);
+  if(activeShop) {
+    hintBox.innerHTML = `💼 <strong>${escapeHTML(activeShop.name)}</strong> operates in <strong>${activeShop.category}</strong>. Listing items into matched subcategory options below.`;
+    
+    // Map list variables reactively from object system dictionary
+    const subCategoriesList = SUBCATEGORY_MAP[activeShop.category] || [];
+    subcatSelect.innerHTML = subCategoriesList.map(sub => `
+      <option value="${sub}">${sub}</option>
+    `).join("");
+  }
+}
+
+// INVENTORY ALLOCATION CONTROLLER WITH NESTED RELATIONS
 function uploadProductToShop() {
   const shopId = document.getElementById("product-target-shop").value;
+  const subcategory = document.getElementById("prod-subcategory").value;
   const title = document.getElementById("prod-title").value.trim();
   const price = document.getElementById("prod-price").value.trim();
   const icon = document.getElementById("prod-icon").value;
   const desc = document.getElementById("prod-desc").value.trim();
 
-  if(!shopId) {
-    alert("⚠️ Deployment Error: You must establish or select an active registered Storefront before publishing inventory.");
+  if(!shopId || !subcategory) {
+    alert("⚠️ Allocation error: Establish a valid shop and assigned subcategory tag.");
     return;
   }
   if(!title || !price || !desc) {
-    alert("⚠️ Incomplete Parameters: Product title, price, and descriptive metrics are mandatory requirements.");
+    alert("⚠️ Verification failure: Fill product details, pricing, and specs.");
     return;
   }
 
-  // Link newly pushed item object natively to the parental Shop via unique matching parameters
-  const targetShopInstance = DB.shops.find(s => s.id === shopId);
+  const parentShop = DB.shops.find(s => s.id === shopId);
 
   const productObj = {
     id: "prod_" + Date.now(),
-    shopId: targetShopInstance.id,
-    shopName: targetShopInstance.name,
-    vendorPhone: targetShopInstance.phone,
-    vendorLocation: targetShopInstance.location,
-    category: targetShopInstance.category, // Inherit classification framework seamlessly
+    shopId: parentShop.id,
+    shopName: parentShop.name,
+    vendorPhone: parentShop.phone,
+    vendorLocation: parentShop.location,
+    category: parentShop.category, // Root category track
+    subcategory: subcategory,     // Specific target item track
     title,
     price: parseFloat(price).toFixed(2),
     icon,
@@ -671,39 +767,37 @@ function uploadProductToShop() {
     timestamp: Date.now()
   };
 
-  DB.products.unshift(productObj); // Push item directly to the top of the feed array
+  DB.products.unshift(productObj); 
   saveDatabaseState();
 
-  alert(`🚀 "${title}" has been added to your shop and broadcasted to the main Shopping Feed.`);
+  alert(`🚀 "${title}" has been added under your ${subcategory} catalog segment!`);
   
-  // Clear Item Forms Elements
+  // Clean product fields
   document.getElementById("prod-title").value = "";
   document.getElementById("prod-price").value = "";
   document.getElementById("prod-desc").value = "";
 }
 
-// DROPDOWN BUILDER SYNC MECHANISM
+// RE-INDEX DROPDOWN BUILD MECHANISMS
 function populateShopDropdownSelectors() {
   const selector = document.getElementById("product-target-shop");
-  
   if(DB.shops.length === 0) {
-    selector.innerHTML = `<option value="">[❌ No Active Digital Storefront Created Yet]</option>`;
+    selector.innerHTML = `<option value="">[❌ Register a Storefront First]</option>`;
+    handleVendorShopSelectionChange();
     return;
   }
 
   selector.innerHTML = DB.shops.map(shop => `
     <option value="${shop.id}">${escapeHTML(shop.name)} (${shop.category})</option>
   `).join("");
+
+  handleVendorShopSelectionChange(); // Forces initial selection list synchronization
 }
 
-// DYNAMIC PERSISTENT STORAGE SYNC
-function saveDatabaseState() {
-  localStorage.setItem("tamale_daa_v2", JSON.stringify(DB));
-}
-
-// HORIZONTAL MATRIX CAROUSEL FILTRATION ALGORITHM
+// BUYER INTERFACE CHIPS MANAGEMENT MATRIX (PARENT ENGINE)
 function filterCategory(categoryText) {
   currentActiveCategory = categoryText;
+  currentActiveSubcategory = "All"; // Reset subcat choice on parent tier mutation
   
   const chips = document.querySelectorAll('.chip');
   chips.forEach(c => {
@@ -713,33 +807,73 @@ function filterCategory(categoryText) {
       c.classList.remove('active');
     }
   });
-  
+
+  renderBuyerSubcategoryChips();
   loadFeed();
 }
 
-// DYNAMIC FEED RENDERING LOADER ENGINE WITH FULL SEARCH EXPANSION
+// BUYER INTERFACE NESTED SUB-CHIPS GENERATION FLOW
+function renderBuyerSubcategoryChips() {
+  const wrapper = document.getElementById("buyer-subcat-wrapper");
+  const container = document.getElementById("buyer-subcat-chips");
+
+  if(currentActiveCategory === "All" || !SUBCATEGORY_MAP[currentActiveCategory]) {
+    wrapper.style.display = "none";
+    return;
+  }
+
+  // Render secondary level chips matching the mapped data array rules
+  const targets = SUBCATEGORY_MAP[currentActiveCategory];
+  wrapper.style.display = "block";
+  
+  let injectionHTML = `<div class="sub-chip active" onclick="filterSubcategory('All')">All ${currentActiveCategory}</div>`;
+  injectionHTML += targets.map(sub => `
+    <div class="sub-chip" onclick="filterSubcategory('${sub}')">${sub}</div>
+  `).join("");
+
+  container.innerHTML = injectionHTML;
+}
+
+// BUYER INTERFACE CHIPS MANAGEMENT MATRIX (CHILD CONTEXT ENGINE)
+function filterSubcategory(subcatText) {
+  currentActiveSubcategory = subcatText;
+  
+  const subChips = document.querySelectorAll('.sub-chip');
+  subChips.forEach(sc => {
+    if(sc.innerText.trim() === subcatText || (subcatText === 'All' && sc.innerText.includes('All'))) {
+      sc.classList.add('active');
+    } else {
+      sc.classList.remove('active');
+    }
+  });
+
+  loadFeed();
+}
+
+// LIVE RENDER & SMART FILTER MATCH ENGINE WITH INTEGRATED DOUBLE-TIER CATEGORIES
 function loadFeed() {
   const feedDisplay = document.getElementById("product-feed-display");
   const searchQuery = document.getElementById("search").value.toLowerCase();
 
-  // Search Expansion Query Parameters checking across item descriptors, metadata strings, vendor parameters, and categories
   const filteredProducts = DB.products.filter(p => {
     const matchesSearch = p.title.toLowerCase().includes(searchQuery) || 
                           p.desc.toLowerCase().includes(searchQuery) || 
                           p.shopName.toLowerCase().includes(searchQuery) ||
                           p.vendorLocation.toLowerCase().includes(searchQuery) ||
+                          (p.subcategory && p.subcategory.toLowerCase().includes(searchQuery)) ||
                           p.category.toLowerCase().includes(searchQuery);
 
-    const matchesCategory = (currentActiveCategory === "All") || (p.category === currentActiveCategory);
+    const matchesParentCategory = (currentActiveCategory === "All") || (p.category === currentActiveCategory);
+    const matchesSubCategory = (currentActiveSubcategory === "All") || (p.subcategory === currentActiveSubcategory);
 
-    return matchesSearch && matchesCategory;
+    return matchesSearch && matchesParentCategory && matchesSubCategory;
   });
 
   if(filteredProducts.length === 0) {
     feedDisplay.innerHTML = `
       <div style="grid-column: 1/-1; text-align:center; padding:50px 20px; background:var(--card-bg); border-radius:16px; border:1px solid var(--border);">
-        <i class="fa-solid fa-store-slash" style="font-size:44px; color:var(--text-muted); margin-bottom:12px;"></i>
-        <p style="color:var(--text-muted); font-size:14px; font-weight:600;">No verified products found matching your active search criteria.</p>
+        <i class="fa-solid fa-layer-group" style="font-size:44px; color:var(--text-muted); margin-bottom:12px;"></i>
+        <p style="color:var(--text-muted); font-size:14px; font-weight:600;">No items found listed in this specific subcategory yet.</p>
       </div>`;
     return;
   }
@@ -748,11 +882,14 @@ function loadFeed() {
     <div class="product-card">
       <div class="product-image-placeholder">
         <i class="fa-solid ${p.icon}"></i>
-        <span class="tag-badge"><i class="fa-solid fa-shield-check"></i> Verified</span>
+        <span class="tag-badge"><i class="fa-solid fa-star"></i> Top Seller</span>
       </div>
       
       <div class="product-details">
-        <div class="product-shop"><i class="fa-solid fa-store"></i> ${escapeHTML(p.shopName)}</div>
+        <div class="product-badges-row">
+          <div class="product-shop"><i class="fa-solid fa-store"></i> ${escapeHTML(p.shopName)}</div>
+          ${p.subcategory ? `<div class="badge-subcat">${escapeHTML(p.subcategory)}</div>` : ''}
+        </div>
         <div class="product-title">${escapeHTML(p.title)}</div>
         <div class="product-price">₵ ${p.price}</div>
         
@@ -772,14 +909,14 @@ function loadFeed() {
           <button class="btn-p-wa" onclick="triggerWhatsAppMessage('${p.vendorPhone}', '${escapeHTML(p.title)}', '${escapeHTML(p.shopName)}')">
             <i class="fa-brands fa-whatsapp"></i> Chat
           </button>
-          ${isAdminActive ? `<button class="btn-p-del" onclick="purgeProductEntry('${p.id}')"><i class="fa-solid fa-trash"></i> Administrative Delete</button>` : ""}
+          ${isAdminActive ? `<button class="btn-p-del" onclick="purgeProductEntry('${p.id}')"><i class="fa-solid fa-trash"></i> Administrative Force Purge</button>` : ""}
         </div>
       </div>
     </div>
   `).join("");
 }
 
-// NATIVE APP ROUTER ACTIONS INTERACTIVITY 
+// GLOBAL COMMUNICATIONS APIS HANDLERS
 function triggerCallPhone(num) {
   window.location.href = "tel:" + num;
 }
@@ -787,13 +924,13 @@ function triggerCallPhone(num) {
 function triggerWhatsAppMessage(num, productItem, shopName) {
   let relativeNum = num.replace(/\s+/g, '');
   if(relativeNum.startsWith('0')) {
-    relativeNum = '233' + relativeNum.substring(1); // Standardizes default Ghana telephone network format 
+    relativeNum = '233' + relativeNum.substring(1);
   }
   const securePrompt = encodeURIComponent(`Hello! I saw your product "${productItem}" from your store "${shopName}" on Tamale Daa. Is it still available for purchase?`);
   window.open(`https://wa.me/${relativeNum}?text=${securePrompt}`, '_blank');
 }
 
-// SECURITY CONTROLLER VAULT MODULATOR
+// ROOT VAULT ADMIN
 function toggleAdmin() {
   if(isAdminActive) {
     isAdminActive = false;
@@ -803,33 +940,37 @@ function toggleAdmin() {
     return;
   }
 
-  const token = prompt("Enter Administrative Root Access Password:");
+  const token = prompt("Enter Administrative Verification Code Key:");
   if(token === "tamale123") {
     isAdminActive = true;
     document.getElementById("adminPanel").style.display = "block";
-    document.getElementById("adminBtn").innerHTML = `<i class="fa-solid fa-lock-open" style="color:var(--accent)"></i> Lock Console`;
+    document.getElementById("adminBtn").innerHTML = `<i class="fa-solid fa-lock-open" style="color:var(--accent)"></i> Lock System`;
     loadFeed();
   } else if (token !== null) {
-    alert("Access Denied: Invalid Security Cryptographic Signature Key.");
+    alert("Unauthorized Signature.");
   }
 }
 
 function purgeProductEntry(prodId) {
-  if(confirm("Confirm action: Are you absolutely confident you want to delete this listing from the network feed database?")) {
+  if(confirm("Confirm action: Remove item listing from global network feed?")) {
     DB.products = DB.products.filter(item => item.id !== prodId);
     saveDatabaseState();
     loadFeed();
   }
 }
 
-// XSS BLOCK SANITATION MIDDLEWARE 
+function saveDatabaseState() {
+  localStorage.setItem("tamale_daa_v3", JSON.stringify(DB));
+}
+
+// ANTI-XSS SANITATION ENGINE
 function escapeHTML(str) {
   return str.replace(/[&<>'"]/g, tag => ({
     '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;'
   }[tag] || tag));
 }
 
-// COMPONENT INITIALIZATION ON BOOT SEQUENCE RUN
+// INITIAL BOOT LOAD SEQUENCE STRUC
 loadFeed();
 </script>
 
