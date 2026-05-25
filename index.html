@@ -3,232 +3,575 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tamale Daa</title>
+<title>Tamale Daa | Next-Gen Northern Marketplace</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:sans-serif;}
-
-body{
-  background:#f4f7f6;
-  color:#333;
+:root {
+  --primary: #0a7d3b;
+  --primary-light: #e8f5e9;
+  --accent: #f2c94c;
+  --dark: #1e293b;
+  --light-bg: #f8fafc;
+  --card-bg: #ffffff;
+  --border: #e2e8f0;
+  --text-muted: #64748b;
+  --danger: #ef4444;
+  --whatsapp: #25d366;
 }
 
-header{
-  background:linear-gradient(135deg,#0a7d3b,#f2c94c);
-  color:white;
-  padding:15px;
-  text-align:center;
-  font-size:20px;
-  font-weight:bold;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
 }
 
-.admin-btn{
-  background:black;
-  margin:10px;
-  padding:10px;
-  border-radius:6px;
-  text-align:center;
-  color:white;
-  cursor:pointer;
+body {
+  background: var(--light-bg);
+  color: var(--dark);
+  padding-bottom: 60px; /* Space for future bottom navigation */
 }
 
-.container{
-  padding:15px;
+/* Modernized Header styled like Temu/Jumia */
+header {
+  background: linear-gradient(135deg, var(--primary), #065f29);
+  color: white;
+  padding: 16px 20px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-.card{
-  background:white;
-  padding:15px;
-  margin-bottom:12px;
-  border-radius:12px;
-  box-shadow:0 4px 10px rgba(0,0,0,0.08);
+header .logo {
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
-input, select{
-  width:100%;
-  padding:12px;
-  margin:6px 0;
-  border-radius:8px;
-  border:1px solid #ddd;
+header .logo span {
+  color: var(--accent);
 }
 
-button{
-  width:100%;
-  padding:12px;
-  background:#0a7d3b;
-  color:white;
-  border:none;
-  border-radius:8px;
-  font-weight:bold;
-  cursor:pointer;
+.admin-trigger {
+  background: rgba(255, 255, 255, 0.15);
+  padding: 8px 14px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-button:hover{opacity:0.9;}
-
-.section-title{
-  margin:15px 0 10px;
-  font-weight:bold;
+.admin-trigger:hover {
+  background: rgba(255, 255, 255, 0.25);
 }
 
-.search{
-  margin-bottom:10px;
+.container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 16px;
 }
 
-.badge{
-  display:inline-block;
-  padding:4px 8px;
-  background:#eee;
-  border-radius:6px;
-  font-size:12px;
-  margin-top:5px;
+/* Jumia-style Sticky Search Bar */
+.search-wrapper {
+  position: sticky;
+  top: 65px;
+  z-index: 90;
+  background: var(--light-bg);
+  padding: 10px 0;
 }
 
-.delete-btn{
-  background:red;
-  margin-top:5px;
+.search-box {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.search-box i {
+  position: absolute;
+  left: 16px;
+  color: var(--text-muted);
+}
+
+.search-box input {
+  width: 100%;
+  padding: 14px 16px 14px 45px;
+  background: var(--card-bg);
+  border: 2px solid var(--border);
+  border-radius: 30px;
+  font-size: 15px;
+  outline: none;
+  transition: all 0.2s;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+}
+
+.search-box input:focus {
+  border-color: var(--primary);
+  box-shadow: 0 4px 12px rgba(10, 125, 59, 0.15);
+}
+
+/* Temu-style Horizontal Quick Categories Scroll */
+.categories-chips {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding: 8px 0 16px;
+  scrollbar-width: none;
+}
+
+.categories-chips::-webkit-scrollbar {
+  display: none;
+}
+
+.chip {
+  white-space: nowrap;
+  padding: 8px 16px;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--dark);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.chip.active {
+  background: var(--primary);
+  color: white;
+  border-color: var(--primary);
+}
+
+/* Glassmorphic & Modern Cards */
+.card {
+  background: var(--card-bg);
+  padding: 20px;
+  margin-bottom: 16px;
+  border-radius: 16px;
+  border: 1px solid rgba(226, 232, 240, 0.8);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.section-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--dark);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Form Styles */
+.form-group {
+  margin-bottom: 14px;
+}
+
+.form-group label {
+  display: block;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+  text-transform: uppercase;
+}
+
+input, select {
+  width: 100%;
+  padding: 12px 14px;
+  background: #f8fafc;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  font-size: 14px;
+  color: var(--dark);
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+input:focus, select:focus {
+  border-color: var(--primary);
+  background: #fff;
+}
+
+/* Premium Buttons Architecture */
+button {
+  width: 100%;
+  padding: 14px;
+  background: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+}
+
+button:hover {
+  opacity: 0.95;
+  transform: translateY(-1px);
+}
+
+/* Dynamic Marketplace Listing Items */
+.biz-item {
+  position: relative;
+  overflow: hidden;
+}
+
+.biz-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 12px;
+}
+
+.biz-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--dark);
+}
+
+.badge-cat {
+  padding: 4px 10px;
+  background: var(--primary-light);
+  color: var(--primary);
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.biz-meta {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.biz-meta i {
+  color: var(--primary);
+  width: 16px;
+  text-align: center;
+}
+
+.action-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.btn-call {
+  background: #e0f2fe;
+  color: #0369a1;
+}
+
+.btn-whatsapp {
+  background: var(--whatsapp);
+  color: white;
+}
+
+.btn-delete {
+  background: var(--danger);
+  grid-column: span 2;
+  margin-top: 5px;
+  padding: 8px;
+  font-size: 13px;
+}
+
+/* Admin Alert Bar */
+#adminPanel {
+  background: #fef2f2;
+  border: 1px dashed var(--danger);
+}
+
+#adminPanel h3 {
+  color: var(--danger);
+  font-size: 16px;
+  margin-bottom: 4px;
+}
+
+/* Promotional banner mock (Temu style) */
+.promo-banner {
+  background: linear-gradient(45deg, #ff7a00, #ff0055);
+  color: white;
+  padding: 12px;
+  border-radius: 12px;
+  margin-bottom: 16px;
+  font-weight: bold;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 </style>
 </head>
 
 <body>
 
-<header>🏪 Tamale Daa</header>
-
-<div class="admin-btn" onclick="adminLogin()">🔐 Admin Login</div>
+<header>
+  <div class="logo"><i class="fa-solid fa-shop"></i> Tamale <span>Daa</span></div>
+  <div class="admin-trigger" id="adminBtn" onclick="adminLogin()"><i class="fa-solid fa-lock"></i> Admin</div>
+</header>
 
 <div class="container">
 
-<!-- REGISTER -->
-<div class="card">
-  <div class="section-title">Register Business</div>
+  <div class="promo-banner">
+    <span>⚡ Flash Registration: List your business for FREE today!</span>
+    <i class="fa-solid fa-chevron-right"></i>
+  </div>
 
-  <input id="name" placeholder="Your Name">
-  <input id="phone" placeholder="Phone Number">
-  <input id="businessName" placeholder="Business Name">
+  <div class="search-wrapper">
+    <div class="search-box">
+      <i class="fa-solid fa-magnifying-glass"></i>
+      <input id="search" placeholder="Search clothes, farms, hotels, services..." onkeyup="loadBusinesses()">
+    </div>
+  </div>
 
-  <select id="category">
-    <option>Commerce</option>
-    <option>Services</option>
-    <option>Agriculture</option>
-    <option>Food</option>
-    <option>Hotels</option>
-    <option>Transport</option>
-  </select>
+  <div class="categories-chips" id="categoryChips">
+    <div class="chip active" onclick="filterCategory('All')">All Feed</div>
+    <div class="chip" onclick="filterCategory('Commerce')">Commerce</div>
+    <div class="chip" onclick="filterCategory('Services')">Services</div>
+    <div class="chip" onclick="filterCategory('Agriculture')">Agriculture</div>
+    <div class="chip" onclick="filterCategory('Food')">Food</div>
+    <div class="chip" onclick="filterCategory('Hotels')">Hotels</div>
+    <div class="chip" onclick="filterCategory('Transport')">Transport</div>
+  </div>
 
-  <input id="gps" placeholder="GPS Address (e.g. TL 1234-5678)">
-  <input id="location" placeholder="Location Description">
+  <div id="adminPanel" style="display:none;" class="card">
+    <h3><i class="fa-solid fa-shield-halved"></i> Root Administration Active</h3>
+    <p style="font-size: 13px; color: #7f1d1d;">You possess security clearance to drop structural listings.</p>
+  </div>
 
-  <button onclick="register()">Register Business</button>
-</div>
+  <div class="card">
+    <div class="section-header">
+      <div class="section-title"><i class="fa-solid fa-rocket"></i> Boost Your Business</div>
+    </div>
 
-<!-- SEARCH -->
-<div class="search">
-  <input id="search" placeholder="Search business..." onkeyup="loadBusinesses()">
-</div>
+    <div class="form-group">
+      <label>Vendor Representative</label>
+      <input id="name" placeholder="Enter full name">
+    </div>
 
-<!-- ADMIN PANEL -->
-<div id="adminPanel" style="display:none;" class="card">
-  <h3>Admin Panel</h3>
-  <p>You can manage and delete businesses.</p>
-</div>
+    <div class="form-group">
+      <label>Mobile Line (WhatsApp Active Preferred)</label>
+      <input id="phone" type="tel" placeholder="e.g. 0244000000">
+    </div>
 
-<!-- LIST -->
-<div id="list"></div>
+    <div class="form-group">
+      <label>Enterprise / Business Corporate Name</label>
+      <input id="businessName" placeholder="e.g. Dagomba Fabrics Hub">
+    </div>
+
+    <div class="form-group">
+      <label>Operational Domain Group</label>
+      <select id="category">
+        <option>Commerce</option>
+        <option>Services</option>
+        <option>Agriculture</option>
+        <option>Food</option>
+        <option>Hotels</option>
+        <option>Transport</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>Digital Address Architecture</label>
+      <input id="gps" placeholder="e.g. NT-024-1024">
+    </div>
+
+    <div class="form-group">
+      <label>Physical Landmark Description</label>
+      <input id="location" placeholder="e.g. Opposite the central mosque, Lamashegu">
+    </div>
+
+    <button onclick="register()"><i class="fa-solid fa-circle-check"></i> Launch Live Marketplace</button>
+  </div>
+
+  <div class="section-title" style="margin: 20px 0 10px 4px;"><i class="fa-solid fa-fire"></i> Verified Local Listings</div>
+  <div id="list"></div>
 
 </div>
 
 <script>
-
-// DATABASE
+// STRUCTURAL ARCHITECTURE DATABASE 
 let businesses = JSON.parse(localStorage.getItem("tamale_daa") || "[]");
-
 let isAdmin = false;
+let selectedCategory = "All";
 
-// ADMIN LOGIN
+// HYBRID CATEGORY SELECTOR CHIPS ENGINE
+function filterCategory(cat) {
+  selectedCategory = cat;
+  
+  // Highlight active chip visual matrix
+  const chips = document.querySelectorAll('.chip');
+  chips.forEach(chip => {
+    if(chip.innerText.trim() === cat || (cat === 'All' && chip.innerText.includes('All'))) {
+      chip.classList.add('active');
+    } else {
+      chip.classList.remove('active');
+    }
+  });
+  
+  loadBusinesses();
+}
+
+// SECURITY CONTROLLER
 function adminLogin(){
-  const password = prompt("Enter Admin Password:");
-
+  if(isAdmin) {
+    isAdmin = false;
+    document.getElementById("adminPanel").style.display = "none";
+    document.getElementById("adminBtn").innerHTML = `<i class="fa-solid fa-lock"></i> Admin`;
+    loadBusinesses();
+    return;
+  }
+  
+  const password = prompt("Enter Administration Vault Password:");
   if(password === "tamale123"){
     isAdmin = true;
-    alert("Admin Logged In");
     document.getElementById("adminPanel").style.display = "block";
+    document.getElementById("adminBtn").innerHTML = `<i class="fa-solid fa-lock-open" style="color:var(--accent)"></i> Exit Admin`;
     loadBusinesses();
-  }else{
-    alert("Wrong Password");
+  } else {
+    alert("Unauthorized Signature Denied.");
   }
 }
 
-// REGISTER
+// WRITING PERSISTENCE TO DATABASE
 function register(){
-  const newBiz = {
-    id: Date.now(),
-    name: document.getElementById("name").value,
-    phone: document.getElementById("phone").value,
-    businessName: document.getElementById("businessName").value,
-    category: document.getElementById("category").value,
-    gps: document.getElementById("gps").value,
-    location: document.getElementById("location").value
-  };
+  const name = document.getElementById("name").value.trim();
+  const phone = document.getElementById("phone").value.trim();
+  const businessName = document.getElementById("businessName").value.trim();
+  const category = document.getElementById("category").value;
+  const gps = document.getElementById("gps").value.trim() || "N/A";
+  const location = document.getElementById("location").value.trim();
 
-  if(!newBiz.businessName || !newBiz.phone){
-    alert("Please fill required fields");
+  if(!businessName || !phone || !name || !location){
+    alert("⚠️ Missing Data: Please populate all foundational layout parameters.");
     return;
   }
 
-  businesses.push(newBiz);
+  const newBiz = {
+    id: Date.now(),
+    name,
+    phone,
+    businessName,
+    category,
+    gps,
+    location
+  };
+
+  businesses.unshift(newBiz); // Add newest elements first (Jumia/Temu standard feed layout)
   localStorage.setItem("tamale_daa", JSON.stringify(businesses));
 
-  alert("Business Registered!");
+  alert("🎉 Success! Your venture is now indexing across our digital network.");
   clearForm();
   loadBusinesses();
 }
 
-// CLEAR FORM
 function clearForm(){
-  document.querySelectorAll("input").forEach(i=>i.value="");
+  document.querySelectorAll("input").forEach(i => i.value="");
 }
 
-// DELETE
 function deleteBiz(id){
-  if(confirm("Delete this business?")){
+  if(confirm("Are you confident you want to purge this deployment from global distribution?")){
     businesses = businesses.filter(b => b.id !== id);
     localStorage.setItem("tamale_daa", JSON.stringify(businesses));
     loadBusinesses();
   }
 }
 
-// LOAD
+// RENDERING COMPUTATION & FILTRATION
 function loadBusinesses(){
-  const search = document.getElementById("search").value.toLowerCase();
+  const searchQuery = document.getElementById("search").value.toLowerCase();
+  const listContainer = document.getElementById("list");
 
-  const filtered = businesses.filter(b =>
-    b.businessName.toLowerCase().includes(search) ||
-    b.category.toLowerCase().includes(search)
-  );
+  const filtered = businesses.filter(b => {
+    const matchesSearch = b.businessName.toLowerCase().includes(searchQuery) || 
+                          b.category.toLowerCase().includes(searchQuery) ||
+                          b.location.toLowerCase().includes(searchQuery);
+                          
+    const matchesCategory = (selectedCategory === "All") || (b.category === selectedCategory);
+    
+    return matchesSearch && matchesCategory;
+  });
 
-  document.getElementById("list").innerHTML = filtered.map(b => `
-    <div class="card">
-      <h3>${b.businessName}</h3>
-      <div class="badge">${b.category}</div>
-      <p><b>📍</b> ${b.location}</p>
-      <p><b>GPS:</b> ${b.gps}</p>
-      <p><b>📞</b> ${b.phone}</p>
+  if(filtered.length === 0) {
+    listContainer.innerHTML = `
+      <div style="text-align:center; padding:40px 20px; color:var(--text-muted);">
+        <i class="fa-solid fa-box-open" style="font-size:48px; margin-bottom:12px; opacity:0.5;"></i>
+        <p>No listings matched your active filtration matrix.</p>
+      </div>`;
+    return;
+  }
 
-      <button onclick="call('${b.phone}')">Call Seller</button>
-
-      ${isAdmin ? `<button class="delete-btn" onclick="deleteBiz(${b.id})">Delete</button>` : ""}
+  listContainer.innerHTML = filtered.map(b => `
+    <div class="card biz-item">
+      <div class="biz-top">
+        <div class="biz-title">${escapeHTML(b.businessName)}</div>
+        <div class="badge-cat">${b.category}</div>
+      </div>
+      
+      <div class="biz-meta"><i class="fa-solid fa-user"></i> <span>Proprietor: ${escapeHTML(b.name)}</span></div>
+      <div class="biz-meta"><i class="fa-solid fa-location-dot"></i> <span>${escapeHTML(b.location)}</span></div>
+      <div class="biz-meta"><i class="fa-solid fa-map-location-dot"></i> <span>Digital GPS: ${escapeHTML(b.gps)}</span></div>
+      
+      <div class="action-grid">
+        <button class="btn-call" onclick="call('${b.phone}')"><i class="fa-solid fa-phone"></i> Call Seller</button>
+        <button class="btn-whatsapp" onclick="whatsapp('${b.phone}', '${escapeHTML(b.businessName)}')"><i class="fa-brands fa-whatsapp"></i> Chat</button>
+        ${isAdmin ? `<button class="btn-delete" onclick="deleteBiz(${b.id})"><i class="fa-solid fa-trash-can"></i> Force Purge</button>` : ""}
+      </div>
     </div>
   `).join("");
 }
 
-// CALL
+// NATIVE API COMMUNICATIONS INTEGRATIONS
 function call(number){
   window.location.href = "tel:" + number;
 }
 
-// INIT
-loadBusinesses();
+function whatsapp(number, bizName){
+  // Format local numbers to international format safely if needed (assumes Ghana context default +233)
+  let cleanNum = number.replace(/\s+/g, '');
+  if(cleanNum.startsWith('0')) {
+    cleanNum = '233' + cleanNum.substring(1);
+  }
+  const text = encodeURIComponent(`Hello, I saw your business "${bizName}" on Tamale Daa and I am interested in doing business with you.`);
+  window.open(`https://wa.me/${cleanNum}?text=${text}`, '_blank');
+}
 
+// XSS Mitigation Security Helper
+function escapeHTML(str) {
+  return str.replace(/[&<>'"]/g, 
+    tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag)
+  );
+}
+
+// INIT BOOT SEQUENCE
+loadBusinesses();
 </script>
 
 </body>
