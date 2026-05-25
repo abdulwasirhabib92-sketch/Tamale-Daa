@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Tamale Daa</title>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:sans-serif;}
+
+body{
+  background:#f4f7f6;
+  color:#333;
+}
+
+header{
+  background:linear-gradient(135deg,#0a7d3b,#f2c94c);
+  color:white;
+  padding:15px;
+  text-align:center;
+  font-size:20px;
+  font-weight:bold;
+}
+
+.container{
+  padding:15px;
+}
+
+.card{
+  background:white;
+  padding:15px;
+  margin-bottom:12px;
+  border-radius:12px;
+  box-shadow:0 4px 10px rgba(0,0,0,0.08);
+}
+
+input, select{
+  width:100%;
+  padding:12px;
+  margin:6px 0;
+  border-radius:8px;
+  border:1px solid #ddd;
+}
+
+button{
+  width:100%;
+  padding:12px;
+  background:#0a7d3b;
+  color:white;
+  border:none;
+  border-radius:8px;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+button:hover{
+  opacity:0.9;
+}
+
+.section-title{
+  margin:15px 0 10px;
+  font-weight:bold;
+}
+
+.search{
+  margin-bottom:10px;
+}
+
+.badge{
+  display:inline-block;
+  padding:4px 8px;
+  background:#eee;
+  border-radius:6px;
+  font-size:12px;
+  margin-top:5px;
+}
+</style>
+</head>
+
+<body>
+
+<header>🏪 Tamale Daa</header>
+
+<div class="container">
+
+<!-- SELLER FORM -->
+<div class="card">
+  <div class="section-title">Register Business</div>
+
+  <input id="name" placeholder="Your Name">
+  <input id="phone" placeholder="Phone Number">
+  <input id="businessName" placeholder="Business Name">
+
+  <select id="category">
+    <option>Commerce</option>
+    <option>Services</option>
+    <option>Agriculture</option>
+    <option>Food</option>
+    <option>Hotels</option>
+    <option>Transport</option>
+  </select>
+
+  <input id="gps" placeholder="GPS Address (e.g. TL 1234-5678)">
+  <input id="location" placeholder="Location Description (e.g. near Aboabo Market)">
+
+  <button onclick="register()">Register Business</button>
+</div>
+
+<!-- SEARCH -->
+<div class="search">
+  <input id="search" placeholder="Search business..." onkeyup="loadBusinesses()">
+</div>
+
+<!-- BUSINESS LIST -->
+<div id="list"></div>
+
+</div>
+
+<script>
+
+// LOCAL STORAGE DATABASE
+let businesses = JSON.parse(localStorage.getItem("tamale_daa") || "[]");
+
+// REGISTER BUSINESS
+function register(){
+  const newBiz = {
+    id: Date.now(),
+    name: document.getElementById("name").value,
+    phone: document.getElementById("phone").value,
+    businessName: document.getElementById("businessName").value,
+    category: document.getElementById("category").value,
+    gps: document.getElementById("gps").value,
+    location: document.getElementById("location").value
+  };
+
+  if(!newBiz.businessName || !newBiz.phone){
+    alert("Please fill required fields");
+    return;
+  }
+
+  businesses.push(newBiz);
+  localStorage.setItem("tamale_daa", JSON.stringify(businesses));
+
+  alert("Business Registered!");
+  loadBusinesses();
+  clearForm();
+}
+
+// CLEAR FORM
+function clearForm(){
+  document.querySelectorAll("input").forEach(i=>i.value="");
+}
+
+// LOAD BUSINESSES
+function loadBusinesses(){
+  const search = document.getElementById("search").value.toLowerCase();
+
+  const filtered = businesses.filter(b =>
+    b.businessName.toLowerCase().includes(search) ||
+    b.category.toLowerCase().includes(search)
+  );
+
+  document.getElementById("list").innerHTML = filtered.map(b => `
+    <div class="card">
+      <h3>${b.businessName}</h3>
+      <div class="badge">${b.category}</div>
+      <p><b>📍</b> ${b.location}</p>
+      <p><b>GPS:</b> ${b.gps}</p>
+      <p><b>📞</b> ${b.phone}</p>
+
+      <button onclick="call('${b.phone}')">Call Seller</button>
+    </div>
+  `).join("");
+}
+
+// CALL FUNCTION
+function call(number){
+  window.location.href = "tel:" + number;
+}
+
+// INITIAL LOAD
+loadBusinesses();
+
+</script>
+
+</body>
+</html>
