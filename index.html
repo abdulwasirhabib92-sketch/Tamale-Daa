@@ -3,16 +3,18 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tamale Daa | Next-Gen Northern Marketplace</title>
+<title>Tamale Daa | Multi-Vendor Marketplace</title>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
 <style>
 :root {
   --primary: #0a7d3b;
   --primary-light: #e8f5e9;
   --accent: #f2c94c;
-  --dark: #1e293b;
+  --accent-light: #fffde7;
+  --dark: #0f172a;
   --light-bg: #f8fafc;
   --card-bg: #ffffff;
   --border: #e2e8f0;
@@ -25,24 +27,24 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  font-family: 'Plus Jakarta Sans', sans-serif;
 }
 
 body {
   background: var(--light-bg);
   color: var(--dark);
-  padding-bottom: 60px; /* Space for future bottom navigation */
+  padding-bottom: 80px;
 }
 
-/* Modernized Header styled like Temu/Jumia */
+/* Jumia/Temu Style Sticky Navigation Header */
 header {
-  background: linear-gradient(135deg, var(--primary), #065f29);
+  background: linear-gradient(135deg, var(--primary), #055326);
   color: white;
-  padding: 16px 20px;
+  padding: 14px 20px;
   position: sticky;
   top: 0;
-  z-index: 100;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  z-index: 1000;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -55,41 +57,95 @@ header .logo {
   display: flex;
   align-items: center;
   gap: 8px;
+  cursor: pointer;
 }
 
 header .logo span {
   color: var(--accent);
 }
 
-.admin-trigger {
+.header-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.nav-btn {
   background: rgba(255, 255, 255, 0.15);
   padding: 8px 14px;
   border-radius: 20px;
   font-size: 13px;
   font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  backdrop-filter: blur(5px);
+  color: white;
   border: 1px solid rgba(255, 255, 255, 0.1);
+  cursor: pointer;
+  transition: all 0.2s;
 }
 
-.admin-trigger:hover {
+.nav-btn:hover {
   background: rgba(255, 255, 255, 0.25);
 }
 
 .container {
-  max-width: 600px;
+  max-width: 700px;
   margin: 0 auto;
   padding: 16px;
 }
 
-/* Jumia-style Sticky Search Bar */
+/* Temu-Style Countdown Promo Banner */
+.promo-banner {
+  background: linear-gradient(45deg, #ff4c3b, #ff8a00);
+  color: white;
+  padding: 12px 16px;
+  border-radius: 14px;
+  margin-bottom: 20px;
+  font-weight: 700;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 4px 12px rgba(255, 76, 59, 0.2);
+}
+
+/* Tab Management Switcher */
+.view-switcher {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 20px;
+  background: #edf2f7;
+  padding: 4px;
+  border-radius: 12px;
+}
+
+.tab-btn {
+  padding: 12px;
+  border: none;
+  border-radius: 10px;
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+  background: transparent;
+  color: var(--text-muted);
+  transition: all 0.2s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+}
+
+.tab-btn.active {
+  background: var(--card-bg);
+  color: var(--primary);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+/* Sticky Search Infrastructure */
 .search-wrapper {
   position: sticky;
   top: 65px;
-  z-index: 90;
+  z-index: 900;
   background: var(--light-bg);
-  padding: 10px 0;
+  padding: 4px 0 14px 0;
 }
 
 .search-box {
@@ -113,20 +169,19 @@ header .logo span {
   font-size: 15px;
   outline: none;
   transition: all 0.2s;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.02);
 }
 
 .search-box input:focus {
   border-color: var(--primary);
-  box-shadow: 0 4px 12px rgba(10, 125, 59, 0.15);
+  box-shadow: 0 4px 15px rgba(10, 125, 59, 0.12);
 }
 
-/* Temu-style Horizontal Quick Categories Scroll */
+/* Horizontal Categories Carousel Scroll Component */
 .categories-chips {
   display: flex;
   gap: 8px;
   overflow-x: auto;
-  padding: 8px 0 16px;
+  padding: 4px 0 16px 0;
   scrollbar-width: none;
 }
 
@@ -153,47 +208,44 @@ header .logo span {
   border-color: var(--primary);
 }
 
-/* Glassmorphic & Modern Cards */
+/* UI Cards Engine */
 .card {
   background: var(--card-bg);
   padding: 20px;
-  margin-bottom: 16px;
+  margin-bottom: 20px;
   border-radius: 16px;
   border: 1px solid rgba(226, 232, 240, 0.8);
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
-  transition: transform 0.2s, box-shadow 0.2s;
-}
-
-.section-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 16px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02), 0 2px 4px -1px rgba(0, 0, 0, 0.01);
 }
 
 .section-title {
   font-size: 16px;
-  font-weight: 700;
+  font-weight: 800;
   color: var(--dark);
+  margin-bottom: 16px;
   text-transform: uppercase;
   letter-spacing: 0.5px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
-/* Form Styles */
+/* Forms Framework */
 .form-group {
-  margin-bottom: 14px;
+  margin-bottom: 16px;
 }
 
 .form-group label {
   display: block;
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 700;
   color: var(--text-muted);
   margin-bottom: 6px;
   text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
-input, select {
+input, select, textarea {
   width: 100%;
   padding: 12px 14px;
   background: #f8fafc;
@@ -202,130 +254,183 @@ input, select {
   font-size: 14px;
   color: var(--dark);
   outline: none;
-  transition: border-color 0.2s;
+  transition: all 0.2s;
 }
 
-input:focus, select:focus {
+textarea {
+  resize: vertical;
+  height: 80px;
+}
+
+input:focus, select:focus, textarea:focus {
   border-color: var(--primary);
   background: #fff;
+  box-shadow: 0 0 0 3px rgba(10, 125, 59, 0.08);
 }
 
-/* Premium Buttons Architecture */
-button {
+/* Buttons System */
+.btn {
   width: 100%;
   padding: 14px;
   background: var(--primary);
   color: white;
   border: none;
   border-radius: 12px;
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 700;
   cursor: pointer;
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 8px;
-  transition: all 0.2s ease;
+  transition: all 0.2s;
 }
 
-button:hover {
+.btn:hover {
   opacity: 0.95;
   transform: translateY(-1px);
 }
 
-/* Dynamic Marketplace Listing Items */
-.biz-item {
-  position: relative;
-  overflow: hidden;
-}
-
-.biz-top {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 12px;
-}
-
-.biz-title {
-  font-size: 18px;
-  font-weight: 700;
+.btn-secondary {
+  background: #e2e8f0;
   color: var(--dark);
+  margin-top: 10px;
 }
 
-.badge-cat {
-  padding: 4px 10px;
-  background: var(--primary-light);
-  color: var(--primary);
-  border-radius: 20px;
-  font-size: 11px;
-  font-weight: 700;
+/* Advanced Product Feed Display Grid */
+.feed-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+@media(min-width: 480px) {
+  .feed-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* Jumia-Style Product Cards */
+.product-card {
+  background: var(--card-bg);
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.product-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 20px rgba(0,0,0,0.05);
+}
+
+.product-image-placeholder {
+  width: 100%;
+  height: 160px;
+  background: linear-gradient(135deg, #f1f5f9, #e2e8f0);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+  font-size: 32px;
+  position: relative;
+}
+
+.tag-badge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  padding: 4px 8px;
+  background: var(--accent);
+  color: var(--dark);
+  font-size: 10px;
+  font-weight: 800;
+  border-radius: 6px;
   text-transform: uppercase;
 }
 
-.biz-meta {
-  font-size: 13px;
-  color: var(--text-muted);
-  margin-bottom: 6px;
+.product-details {
+  padding: 14px;
   display: flex;
-  align-items: center;
-  gap: 8px;
+  flex-direction: column;
+  flex-grow: 1;
 }
 
-.biz-meta i {
+.product-shop {
+  font-size: 11px;
+  font-weight: 700;
   color: var(--primary);
-  width: 16px;
-  text-align: center;
-}
-
-.action-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-  margin-top: 16px;
-}
-
-.btn-call {
-  background: #e0f2fe;
-  color: #0369a1;
-}
-
-.btn-whatsapp {
-  background: var(--whatsapp);
-  color: white;
-}
-
-.btn-delete {
-  background: var(--danger);
-  grid-column: span 2;
-  margin-top: 5px;
-  padding: 8px;
-  font-size: 13px;
-}
-
-/* Admin Alert Bar */
-#adminPanel {
-  background: #fef2f2;
-  border: 1px dashed var(--danger);
-}
-
-#adminPanel h3 {
-  color: var(--danger);
-  font-size: 16px;
+  text-transform: uppercase;
   margin-bottom: 4px;
 }
 
-/* Promotional banner mock (Temu style) */
-.promo-banner {
-  background: linear-gradient(45deg, #ff7a00, #ff0055);
-  color: white;
-  padding: 12px;
-  border-radius: 12px;
-  margin-bottom: 16px;
-  font-weight: bold;
-  font-size: 13px;
+.product-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--dark);
+  margin-bottom: 6px;
+  line-height: 1.3;
+}
+
+.product-price {
+  font-size: 18px;
+  font-weight: 800;
+  color: #b45309;
+  margin-bottom: 8px;
+}
+
+.product-meta {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-bottom: 12px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  gap: 4px;
+}
+
+.action-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-top: auto;
+}
+
+.action-row button {
+  padding: 10px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}
+
+.btn-p-call { background: #e0f2fe; color: #0369a1; }
+.btn-p-wa { background: var(--whatsapp); color: white; }
+.btn-p-del { background: var(--danger); color: white; grid-column: span 2; margin-top: 4px;}
+
+/* Shop Selection Dropdown Style for Post Item */
+.shop-selector-box {
+  background: var(--accent-light);
+  border: 1px dashed var(--accent);
+  padding: 12px;
+  border-radius: 10px;
+  margin-bottom: 16px;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+#adminPanel {
+  background: #fef2f2;
+  border: 1px dashed var(--danger);
+  color: #7f1d1d;
 }
 </style>
 </head>
@@ -333,245 +438,399 @@ button:hover {
 <body>
 
 <header>
-  <div class="logo"><i class="fa-solid fa-shop"></i> Tamale <span>Daa</span></div>
-  <div class="admin-trigger" id="adminBtn" onclick="adminLogin()"><i class="fa-solid fa-lock"></i> Admin</div>
+  <div class="logo" onclick="switchTab('feed')"><i class="fa-solid fa-store"></i> Tamale <span>Daa</span></div>
+  <div class="header-actions">
+    <div class="nav-btn" id="adminBtn" onclick="toggleAdmin()"><i class="fa-solid fa-lock"></i> Admin</div>
+  </div>
 </header>
 
 <div class="container">
 
   <div class="promo-banner">
-    <span>⚡ Flash Registration: List your business for FREE today!</span>
-    <i class="fa-solid fa-chevron-right"></i>
+    <span>🔥 Super Deals Week: Open a digital shop & upload products instantly!</span>
+    <i class="fa-solid fa-bolt"></i>
   </div>
 
-  <div class="search-wrapper">
-    <div class="search-box">
-      <i class="fa-solid fa-magnifying-glass"></i>
-      <input id="search" placeholder="Search clothes, farms, hotels, services..." onkeyup="loadBusinesses()">
-    </div>
+  <div class="view-switcher">
+    <div class="tab-btn active" id="tab-feed" onclick="switchTab('feed')"><i class="fa-solid fa-basket-shopping"></i> Shopping Feed</div>
+    <div class="tab-btn" id="tab-merchant" onclick="switchTab('merchant')"><i class="fa-solid fa-briefcase"></i> Vendor Console</div>
   </div>
 
-  <div class="categories-chips" id="categoryChips">
-    <div class="chip active" onclick="filterCategory('All')">All Feed</div>
-    <div class="chip" onclick="filterCategory('Commerce')">Commerce</div>
-    <div class="chip" onclick="filterCategory('Services')">Services</div>
-    <div class="chip" onclick="filterCategory('Agriculture')">Agriculture</div>
-    <div class="chip" onclick="filterCategory('Food')">Food</div>
-    <div class="chip" onclick="filterCategory('Hotels')">Hotels</div>
-    <div class="chip" onclick="filterCategory('Transport')">Transport</div>
+  <div id="view-feed-container">
+    <div class="search-wrapper">
+      <div class="search-box">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <input id="search" placeholder="Search products, brands, shops, or locations..." onkeyup="loadFeed()">
+      </div>
+    </div>
+
+    <div class="categories-chips" id="categoryChips">
+      <div class="chip active" onclick="filterCategory('All')">All Categories</div>
+      <div class="chip" onclick="filterCategory('Commerce')">Commerce</div>
+      <div class="chip" onclick="filterCategory('Services')">Services</div>
+      <div class="chip" onclick="filterCategory('Agriculture')">Agriculture</div>
+      <div class="chip" onclick="filterCategory('Food')">Food</div>
+      <div class="chip" onclick="filterCategory('Hotels')">Hotels</div>
+      <div class="chip" onclick="filterCategory('Transport')">Transport</div>
+    </div>
+
+    <div class="section-title"><i class="fa-solid fa-fire" style="color: #ff4c3b;"></i> Fresh From Stores in Tamale</div>
+    <div class="feed-grid" id="product-feed-display"></div>
   </div>
 
-  <div id="adminPanel" style="display:none;" class="card">
-    <h3><i class="fa-solid fa-shield-halved"></i> Root Administration Active</h3>
-    <p style="font-size: 13px; color: #7f1d1d;">You possess security clearance to drop structural listings.</p>
+  <div id="view-merchant-container" style="display: none;">
+    
+    <div id="adminPanel" style="display:none;" class="card">
+      <p style="font-weight:700;"><i class="fa-solid fa-shield-halved"></i> Root Administration Security Authorization Granted.</p>
+    </div>
+
+    <div class="card">
+      <div class="section-title"><i class="fa-solid fa-plus-circle" style="color:var(--primary)"></i> 1. Setup Your Digital Shop</div>
+      <p style="font-size:12px; color:var(--text-muted); margin-bottom:14px;">Establish your dynamic vendor presence to unlock stock deployment slots.</p>
+      
+      <div class="form-group">
+        <label>Proprietor / Representative Name</label>
+        <input id="shop-owner" placeholder="Your full name">
+      </div>
+      <div class="form-group">
+        <label>Contact Phone (WhatsApp Active Preferred)</label>
+        <input id="shop-phone" type="tel" placeholder="e.g. 0244123456">
+      </div>
+      <div class="form-group">
+        <label>Store Brand/Business Name</label>
+        <input id="shop-name" placeholder="e.g. Aliu & Sons Agriculture Complex">
+      </div>
+      <div class="form-group">
+        <label>Market Sector Domain Classification</label>
+        <select id="shop-category">
+          <option>Commerce</option>
+          <option>Services</option>
+          <option>Agriculture</option>
+          <option>Food</option>
+          <option>Hotels</option>
+          <option>Transport</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Ghana Digital GPS Address Pointer</label>
+        <input id="shop-gps" placeholder="e.g. NT-102-4096">
+      </div>
+      <div class="form-group">
+        <label>Physical Landmark Description</label>
+        <input id="shop-location" placeholder="e.g. Near Tamale Jubilee Park">
+      </div>
+      
+      <button class="btn" onclick="createNewShop()"><i class="fa-solid fa-store"></i> Deploy Storefront</button>
+    </div>
+
+    <div class="card">
+      <div class="section-title"><i class="fa-solid fa-cloud-arrow-up" style="color:#0369a1"></i> 2. Upload Product to Your Shop</div>
+      
+      <div class="form-group">
+        <label>Select Target Active Owned Storefront</label>
+        <select id="product-target-shop" onchange="checkShopStatus()">
+          </select>
+      </div>
+
+      <div id="shop-dependent-fields">
+        <div class="form-group">
+          <label>Product Title / Item Descriptor</label>
+          <input id="prod-title" placeholder="e.g. Smock (Fugu) Royal Grade">
+        </div>
+        <div class="form-group">
+          <label>Price Tag (GHS ₵)</label>
+          <input id="prod-price" type="number" placeholder="e.g. 450">
+        </div>
+        <div class="form-group">
+          <label>Visual Product Badge Icon Identifier</label>
+          <select id="prod-icon">
+            <option value="fa-shirt">👕 Apparel & Fashion Cloth</option>
+            <option value="fa-seedling">🌱 Farm Fresh & Agro Raw</option>
+            <option value="fa-bowl-food">🍲 Cooked Meals & Catering</option>
+            <option value="fa-mobile-screen">📱 Electronic Hardware Device</option>
+            <option value="fa-screwdriver-wrench">🛠️ Hardware / Technical Services</option>
+            <option value="fa-car">🚗 Logistics / Transit Services</option>
+            <option value="fa-box">📦 Generic Consumer Commodity</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Item Description / Specifications</label>
+          <textarea id="prod-desc" placeholder="Detail specifications, sizing options, deliveries metrics, colors available..."></textarea>
+        </div>
+        
+        <button class="btn" style="background:#0369a1;" onclick="uploadProductToShop()"><i class="fa-solid fa-paper-plane"></i> Publish Product Live</button>
+      </div>
+    </div>
+
   </div>
-
-  <div class="card">
-    <div class="section-header">
-      <div class="section-title"><i class="fa-solid fa-rocket"></i> Boost Your Business</div>
-    </div>
-
-    <div class="form-group">
-      <label>Vendor Representative</label>
-      <input id="name" placeholder="Enter full name">
-    </div>
-
-    <div class="form-group">
-      <label>Mobile Line (WhatsApp Active Preferred)</label>
-      <input id="phone" type="tel" placeholder="e.g. 0244000000">
-    </div>
-
-    <div class="form-group">
-      <label>Enterprise / Business Corporate Name</label>
-      <input id="businessName" placeholder="e.g. Dagomba Fabrics Hub">
-    </div>
-
-    <div class="form-group">
-      <label>Operational Domain Group</label>
-      <select id="category">
-        <option>Commerce</option>
-        <option>Services</option>
-        <option>Agriculture</option>
-        <option>Food</option>
-        <option>Hotels</option>
-        <option>Transport</option>
-      </select>
-    </div>
-
-    <div class="form-group">
-      <label>Digital Address Architecture</label>
-      <input id="gps" placeholder="e.g. NT-024-1024">
-    </div>
-
-    <div class="form-group">
-      <label>Physical Landmark Description</label>
-      <input id="location" placeholder="e.g. Opposite the central mosque, Lamashegu">
-    </div>
-
-    <button onclick="register()"><i class="fa-solid fa-circle-check"></i> Launch Live Marketplace</button>
-  </div>
-
-  <div class="section-title" style="margin: 20px 0 10px 4px;"><i class="fa-solid fa-fire"></i> Verified Local Listings</div>
-  <div id="list"></div>
 
 </div>
 
 <script>
-// STRUCTURAL ARCHITECTURE DATABASE 
-let businesses = JSON.parse(localStorage.getItem("tamale_daa") || "[]");
-let isAdmin = false;
-let selectedCategory = "All";
+// SINGLE SOURCE OF TRUTH LOCALSTORAGE DATABASE SCHEMATICS 
+let DB = JSON.parse(localStorage.getItem("tamale_daa_v2") || '{"shops":[], "products":[]}');
 
-// HYBRID CATEGORY SELECTOR CHIPS ENGINE
-function filterCategory(cat) {
-  selectedCategory = cat;
+// RUNTIME CONTEXT APP MATRIX
+let currentActiveCategory = "All";
+let isAdminActive = false;
+
+// INTERACTIVE VIEWS CONTROLLER SWITCH LAYER
+function switchTab(targetTab) {
+  const feedBtn = document.getElementById('tab-feed');
+  const merchantBtn = document.getElementById('tab-merchant');
+  const feedView = document.getElementById('view-feed-container');
+  const merchantView = document.getElementById('view-merchant-container');
+
+  if(targetTab === 'feed') {
+    feedBtn.classList.add('active');
+    merchantBtn.classList.remove('active');
+    feedView.style.display = 'block';
+    merchantView.style.display = 'none';
+    loadFeed();
+  } else {
+    merchantBtn.classList.add('active');
+    feedBtn.classList.remove('active');
+    feedView.style.display = 'none';
+    merchantView.style.display = 'block';
+    populateShopDropdownSelectors();
+  }
+}
+
+// MULTI-VENDOR CORE COMPONENT A: ESTABLISHING A SHOPFRONT
+function createNewShop() {
+  const owner = document.getElementById("shop-owner").value.trim();
+  const phone = document.getElementById("shop-phone").value.trim();
+  const name = document.getElementById("shop-name").value.trim();
+  const category = document.getElementById("shop-category").value;
+  const gps = document.getElementById("shop-gps").value.trim() || "NT-000-0000";
+  const location = document.getElementById("shop-location").value.trim();
+
+  if(!owner || !phone || !name || !location) {
+    alert("⚠️ Execution Halted: Please ensure all Storefront fields are configured.");
+    return;
+  }
+
+  // Generate Unique Structural Entity for Shop
+  const uniqueShopId = "shop_" + Date.now();
+  const shopObj = {
+    id: uniqueShopId,
+    owner,
+    phone,
+    name,
+    category,
+    gps,
+    location,
+    timestamp: Date.now()
+  };
+
+  DB.shops.push(shopObj);
+  saveDatabaseState();
   
-  // Highlight active chip visual matrix
+  alert(`🎉 Storefront "${name}" is registered and operational. You can now list items!`);
+  
+  // Clean Input Forms Fields
+  document.getElementById("shop-owner").value = "";
+  document.getElementById("shop-phone").value = "";
+  document.getElementById("shop-name").value = "";
+  document.getElementById("shop-location").value = "";
+  
+  populateShopDropdownSelectors();
+}
+
+// MULTI-VENDOR CORE COMPONENT B: STOCK ITEM UPLOAD LINKED TO TARGET STOREFRONT
+function uploadProductToShop() {
+  const shopId = document.getElementById("product-target-shop").value;
+  const title = document.getElementById("prod-title").value.trim();
+  const price = document.getElementById("prod-price").value.trim();
+  const icon = document.getElementById("prod-icon").value;
+  const desc = document.getElementById("prod-desc").value.trim();
+
+  if(!shopId) {
+    alert("⚠️ Deployment Error: You must establish or select an active registered Storefront before publishing inventory.");
+    return;
+  }
+  if(!title || !price || !desc) {
+    alert("⚠️ Incomplete Parameters: Product title, price, and descriptive metrics are mandatory requirements.");
+    return;
+  }
+
+  // Link newly pushed item object natively to the parental Shop via unique matching parameters
+  const targetShopInstance = DB.shops.find(s => s.id === shopId);
+
+  const productObj = {
+    id: "prod_" + Date.now(),
+    shopId: targetShopInstance.id,
+    shopName: targetShopInstance.name,
+    vendorPhone: targetShopInstance.phone,
+    vendorLocation: targetShopInstance.location,
+    category: targetShopInstance.category, // Inherit classification framework seamlessly
+    title,
+    price: parseFloat(price).toFixed(2),
+    icon,
+    desc,
+    timestamp: Date.now()
+  };
+
+  DB.products.unshift(productObj); // Push item directly to the top of the feed array
+  saveDatabaseState();
+
+  alert(`🚀 "${title}" has been added to your shop and broadcasted to the main Shopping Feed.`);
+  
+  // Clear Item Forms Elements
+  document.getElementById("prod-title").value = "";
+  document.getElementById("prod-price").value = "";
+  document.getElementById("prod-desc").value = "";
+}
+
+// DROPDOWN BUILDER SYNC MECHANISM
+function populateShopDropdownSelectors() {
+  const selector = document.getElementById("product-target-shop");
+  
+  if(DB.shops.length === 0) {
+    selector.innerHTML = `<option value="">[❌ No Active Digital Storefront Created Yet]</option>`;
+    return;
+  }
+
+  selector.innerHTML = DB.shops.map(shop => `
+    <option value="${shop.id}">${escapeHTML(shop.name)} (${shop.category})</option>
+  `).join("");
+}
+
+// DYNAMIC PERSISTENT STORAGE SYNC
+function saveDatabaseState() {
+  localStorage.setItem("tamale_daa_v2", JSON.stringify(DB));
+}
+
+// HORIZONTAL MATRIX CAROUSEL FILTRATION ALGORITHM
+function filterCategory(categoryText) {
+  currentActiveCategory = categoryText;
+  
   const chips = document.querySelectorAll('.chip');
-  chips.forEach(chip => {
-    if(chip.innerText.trim() === cat || (cat === 'All' && chip.innerText.includes('All'))) {
-      chip.classList.add('active');
+  chips.forEach(c => {
+    if(c.innerText.trim() === categoryText || (categoryText === 'All' && c.innerText.includes('All'))) {
+      c.classList.add('active');
     } else {
-      chip.classList.remove('active');
+      c.classList.remove('active');
     }
   });
   
-  loadBusinesses();
+  loadFeed();
 }
 
-// SECURITY CONTROLLER
-function adminLogin(){
-  if(isAdmin) {
-    isAdmin = false;
-    document.getElementById("adminPanel").style.display = "none";
-    document.getElementById("adminBtn").innerHTML = `<i class="fa-solid fa-lock"></i> Admin`;
-    loadBusinesses();
-    return;
-  }
-  
-  const password = prompt("Enter Administration Vault Password:");
-  if(password === "tamale123"){
-    isAdmin = true;
-    document.getElementById("adminPanel").style.display = "block";
-    document.getElementById("adminBtn").innerHTML = `<i class="fa-solid fa-lock-open" style="color:var(--accent)"></i> Exit Admin`;
-    loadBusinesses();
-  } else {
-    alert("Unauthorized Signature Denied.");
-  }
-}
-
-// WRITING PERSISTENCE TO DATABASE
-function register(){
-  const name = document.getElementById("name").value.trim();
-  const phone = document.getElementById("phone").value.trim();
-  const businessName = document.getElementById("businessName").value.trim();
-  const category = document.getElementById("category").value;
-  const gps = document.getElementById("gps").value.trim() || "N/A";
-  const location = document.getElementById("location").value.trim();
-
-  if(!businessName || !phone || !name || !location){
-    alert("⚠️ Missing Data: Please populate all foundational layout parameters.");
-    return;
-  }
-
-  const newBiz = {
-    id: Date.now(),
-    name,
-    phone,
-    businessName,
-    category,
-    gps,
-    location
-  };
-
-  businesses.unshift(newBiz); // Add newest elements first (Jumia/Temu standard feed layout)
-  localStorage.setItem("tamale_daa", JSON.stringify(businesses));
-
-  alert("🎉 Success! Your venture is now indexing across our digital network.");
-  clearForm();
-  loadBusinesses();
-}
-
-function clearForm(){
-  document.querySelectorAll("input").forEach(i => i.value="");
-}
-
-function deleteBiz(id){
-  if(confirm("Are you confident you want to purge this deployment from global distribution?")){
-    businesses = businesses.filter(b => b.id !== id);
-    localStorage.setItem("tamale_daa", JSON.stringify(businesses));
-    loadBusinesses();
-  }
-}
-
-// RENDERING COMPUTATION & FILTRATION
-function loadBusinesses(){
+// DYNAMIC FEED RENDERING LOADER ENGINE WITH FULL SEARCH EXPANSION
+function loadFeed() {
+  const feedDisplay = document.getElementById("product-feed-display");
   const searchQuery = document.getElementById("search").value.toLowerCase();
-  const listContainer = document.getElementById("list");
 
-  const filtered = businesses.filter(b => {
-    const matchesSearch = b.businessName.toLowerCase().includes(searchQuery) || 
-                          b.category.toLowerCase().includes(searchQuery) ||
-                          b.location.toLowerCase().includes(searchQuery);
-                          
-    const matchesCategory = (selectedCategory === "All") || (b.category === selectedCategory);
-    
+  // Search Expansion Query Parameters checking across item descriptors, metadata strings, vendor parameters, and categories
+  const filteredProducts = DB.products.filter(p => {
+    const matchesSearch = p.title.toLowerCase().includes(searchQuery) || 
+                          p.desc.toLowerCase().includes(searchQuery) || 
+                          p.shopName.toLowerCase().includes(searchQuery) ||
+                          p.vendorLocation.toLowerCase().includes(searchQuery) ||
+                          p.category.toLowerCase().includes(searchQuery);
+
+    const matchesCategory = (currentActiveCategory === "All") || (p.category === currentActiveCategory);
+
     return matchesSearch && matchesCategory;
   });
 
-  if(filtered.length === 0) {
-    listContainer.innerHTML = `
-      <div style="text-align:center; padding:40px 20px; color:var(--text-muted);">
-        <i class="fa-solid fa-box-open" style="font-size:48px; margin-bottom:12px; opacity:0.5;"></i>
-        <p>No listings matched your active filtration matrix.</p>
+  if(filteredProducts.length === 0) {
+    feedDisplay.innerHTML = `
+      <div style="grid-column: 1/-1; text-align:center; padding:50px 20px; background:var(--card-bg); border-radius:16px; border:1px solid var(--border);">
+        <i class="fa-solid fa-store-slash" style="font-size:44px; color:var(--text-muted); margin-bottom:12px;"></i>
+        <p style="color:var(--text-muted); font-size:14px; font-weight:600;">No verified products found matching your active search criteria.</p>
       </div>`;
     return;
   }
 
-  listContainer.innerHTML = filtered.map(b => `
-    <div class="card biz-item">
-      <div class="biz-top">
-        <div class="biz-title">${escapeHTML(b.businessName)}</div>
-        <div class="badge-cat">${b.category}</div>
+  feedDisplay.innerHTML = filteredProducts.map(p => `
+    <div class="product-card">
+      <div class="product-image-placeholder">
+        <i class="fa-solid ${p.icon}"></i>
+        <span class="tag-badge"><i class="fa-solid fa-shield-check"></i> Verified</span>
       </div>
       
-      <div class="biz-meta"><i class="fa-solid fa-user"></i> <span>Proprietor: ${escapeHTML(b.name)}</span></div>
-      <div class="biz-meta"><i class="fa-solid fa-location-dot"></i> <span>${escapeHTML(b.location)}</span></div>
-      <div class="biz-meta"><i class="fa-solid fa-map-location-dot"></i> <span>Digital GPS: ${escapeHTML(b.gps)}</span></div>
-      
-      <div class="action-grid">
-        <button class="btn-call" onclick="call('${b.phone}')"><i class="fa-solid fa-phone"></i> Call Seller</button>
-        <button class="btn-whatsapp" onclick="whatsapp('${b.phone}', '${escapeHTML(b.businessName)}')"><i class="fa-brands fa-whatsapp"></i> Chat</button>
-        ${isAdmin ? `<button class="btn-delete" onclick="deleteBiz(${b.id})"><i class="fa-solid fa-trash-can"></i> Force Purge</button>` : ""}
+      <div class="product-details">
+        <div class="product-shop"><i class="fa-solid fa-store"></i> ${escapeHTML(p.shopName)}</div>
+        <div class="product-title">${escapeHTML(p.title)}</div>
+        <div class="product-price">₵ ${p.price}</div>
+        
+        <p style="font-size:12px; color:var(--text-muted); margin-bottom:10px; line-height:1.4;">
+          ${escapeHTML(p.desc)}
+        </p>
+        
+        <div class="product-meta">
+          <i class="fa-solid fa-location-dot" style="color:var(--primary)"></i> 
+          <span>${escapeHTML(p.vendorLocation)}</span>
+        </div>
+
+        <div class="action-row">
+          <button class="btn-p-call" onclick="triggerCallPhone('${p.vendorPhone}')">
+            <i class="fa-solid fa-phone"></i> Call
+          </button>
+          <button class="btn-p-wa" onclick="triggerWhatsAppMessage('${p.vendorPhone}', '${escapeHTML(p.title)}', '${escapeHTML(p.shopName)}')">
+            <i class="fa-brands fa-whatsapp"></i> Chat
+          </button>
+          ${isAdminActive ? `<button class="btn-p-del" onclick="purgeProductEntry('${p.id}')"><i class="fa-solid fa-trash"></i> Administrative Delete</button>` : ""}
+        </div>
       </div>
     </div>
   `).join("");
 }
 
-// NATIVE API COMMUNICATIONS INTEGRATIONS
-function call(number){
-  window.location.href = "tel:" + number;
+// NATIVE APP ROUTER ACTIONS INTERACTIVITY 
+function triggerCallPhone(num) {
+  window.location.href = "tel:" + num;
 }
 
-function whatsapp(number, bizName){
-  // Format local numbers to international format safely if needed (assumes Ghana context default +233)
-  let cleanNum = number.replace(/\s+/g, '');
-  if(cleanNum.startsWith('0')) {
-    cleanNum = '233' + cleanNum.substring(1);
+function triggerWhatsAppMessage(num, productItem, shopName) {
+  let relativeNum = num.replace(/\s+/g, '');
+  if(relativeNum.startsWith('0')) {
+    relativeNum = '233' + relativeNum.substring(1); // Standardizes default Ghana telephone network format 
   }
-  const text = encodeURIComponent(`Hello, I saw your business "${bizName}" on Tamale Daa and I am interested in doing business with you.`);
-  window.open(`https://wa.me/${cleanNum}?text=${text}`, '_blank');
+  const securePrompt = encodeURIComponent(`Hello! I saw your product "${productItem}" from your store "${shopName}" on Tamale Daa. Is it still available for purchase?`);
+  window.open(`https://wa.me/${relativeNum}?text=${securePrompt}`, '_blank');
 }
 
-// XSS Mitigation Security Helper
+// SECURITY CONTROLLER VAULT MODULATOR
+function toggleAdmin() {
+  if(isAdminActive) {
+    isAdminActive = false;
+    document.getElementById("adminPanel").style.display = "none";
+    document.getElementById("adminBtn").innerHTML = `<i class="fa-solid fa-lock"></i> Admin`;
+    loadFeed();
+    return;
+  }
+
+  const token = prompt("Enter Administrative Root Access Password:");
+  if(token === "tamale123") {
+    isAdminActive = true;
+    document.getElementById("adminPanel").style.display = "block";
+    document.getElementById("adminBtn").innerHTML = `<i class="fa-solid fa-lock-open" style="color:var(--accent)"></i> Lock Console`;
+    loadFeed();
+  } else if (token !== null) {
+    alert("Access Denied: Invalid Security Cryptographic Signature Key.");
+  }
+}
+
+function purgeProductEntry(prodId) {
+  if(confirm("Confirm action: Are you absolutely confident you want to delete this listing from the network feed database?")) {
+    DB.products = DB.products.filter(item => item.id !== prodId);
+    saveDatabaseState();
+    loadFeed();
+  }
+}
+
+// XSS BLOCK SANITATION MIDDLEWARE 
 function escapeHTML(str) {
-  return str.replace(/[&<>'"]/g, 
-    tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag)
-  );
+  return str.replace(/[&<>'"]/g, tag => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;'
+  }[tag] || tag));
 }
 
-// INIT BOOT SEQUENCE
-loadBusinesses();
+// COMPONENT INITIALIZATION ON BOOT SEQUENCE RUN
+loadFeed();
 </script>
 
 </body>
