@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Tamale Daa</title>
 
 <style>
@@ -21,6 +20,16 @@ header{
   text-align:center;
   font-size:20px;
   font-weight:bold;
+}
+
+.admin-btn{
+  background:black;
+  margin:10px;
+  padding:10px;
+  border-radius:6px;
+  text-align:center;
+  color:white;
+  cursor:pointer;
 }
 
 .container{
@@ -54,9 +63,7 @@ button{
   cursor:pointer;
 }
 
-button:hover{
-  opacity:0.9;
-}
+button:hover{opacity:0.9;}
 
 .section-title{
   margin:15px 0 10px;
@@ -75,6 +82,11 @@ button:hover{
   font-size:12px;
   margin-top:5px;
 }
+
+.delete-btn{
+  background:red;
+  margin-top:5px;
+}
 </style>
 </head>
 
@@ -82,9 +94,11 @@ button:hover{
 
 <header>🏪 Tamale Daa</header>
 
+<div class="admin-btn" onclick="adminLogin()">🔐 Admin Login</div>
+
 <div class="container">
 
-<!-- SELLER FORM -->
+<!-- REGISTER -->
 <div class="card">
   <div class="section-title">Register Business</div>
 
@@ -102,7 +116,7 @@ button:hover{
   </select>
 
   <input id="gps" placeholder="GPS Address (e.g. TL 1234-5678)">
-  <input id="location" placeholder="Location Description (e.g. near Aboabo Market)">
+  <input id="location" placeholder="Location Description">
 
   <button onclick="register()">Register Business</button>
 </div>
@@ -112,17 +126,39 @@ button:hover{
   <input id="search" placeholder="Search business..." onkeyup="loadBusinesses()">
 </div>
 
-<!-- BUSINESS LIST -->
+<!-- ADMIN PANEL -->
+<div id="adminPanel" style="display:none;" class="card">
+  <h3>Admin Panel</h3>
+  <p>You can manage and delete businesses.</p>
+</div>
+
+<!-- LIST -->
 <div id="list"></div>
 
 </div>
 
 <script>
 
-// LOCAL STORAGE DATABASE
+// DATABASE
 let businesses = JSON.parse(localStorage.getItem("tamale_daa") || "[]");
 
-// REGISTER BUSINESS
+let isAdmin = false;
+
+// ADMIN LOGIN
+function adminLogin(){
+  const password = prompt("Enter Admin Password:");
+
+  if(password === "tamale123"){
+    isAdmin = true;
+    alert("Admin Logged In");
+    document.getElementById("adminPanel").style.display = "block";
+    loadBusinesses();
+  }else{
+    alert("Wrong Password");
+  }
+}
+
+// REGISTER
 function register(){
   const newBiz = {
     id: Date.now(),
@@ -143,8 +179,8 @@ function register(){
   localStorage.setItem("tamale_daa", JSON.stringify(businesses));
 
   alert("Business Registered!");
-  loadBusinesses();
   clearForm();
+  loadBusinesses();
 }
 
 // CLEAR FORM
@@ -152,7 +188,16 @@ function clearForm(){
   document.querySelectorAll("input").forEach(i=>i.value="");
 }
 
-// LOAD BUSINESSES
+// DELETE
+function deleteBiz(id){
+  if(confirm("Delete this business?")){
+    businesses = businesses.filter(b => b.id !== id);
+    localStorage.setItem("tamale_daa", JSON.stringify(businesses));
+    loadBusinesses();
+  }
+}
+
+// LOAD
 function loadBusinesses(){
   const search = document.getElementById("search").value.toLowerCase();
 
@@ -170,16 +215,18 @@ function loadBusinesses(){
       <p><b>📞</b> ${b.phone}</p>
 
       <button onclick="call('${b.phone}')">Call Seller</button>
+
+      ${isAdmin ? `<button class="delete-btn" onclick="deleteBiz(${b.id})">Delete</button>` : ""}
     </div>
   `).join("");
 }
 
-// CALL FUNCTION
+// CALL
 function call(number){
   window.location.href = "tel:" + number;
 }
 
-// INITIAL LOAD
+// INIT
 loadBusinesses();
 
 </script>
